@@ -1,0 +1,36 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.1.0
+    hooks:
+      - id: check-added-large-files # prevents giant files from being committed.
+      - id: check-case-conflict # checks for files that would conflict in case-insensitive filesystems.
+      - id: check-merge-conflict # checks for files that contain merge conflict strings.
+      - id: check-yaml # checks yaml files for parseable syntax.
+      - id: check-json
+      - id: check-toml
+      - id: detect-private-key # detects the presence of private keys.
+      - id: fix-byte-order-marker # removes utf-8 byte order marker.
+      - id: mixed-line-ending # replaces or checks mixed line ending.
+      - id: trailing-whitespace # trims trailing whitespace.
+  - repo: local
+    hooks:
+      - id: mypy
+        name: mypy
+        entry: ".venv/bin/python -m mypy"
+        language: system
+        args: ["."]
+        pass_filenames: false
+        types: [python]
+      - id: ruff
+        name: ruff
+        entry: ".venv/bin/python -m ruff"
+        language: system
+        args: ["check", "."]
+        pass_filenames: false
+        types: [python]
+      - id: coverage
+        name: coverage
+        entry: ".venv/bin/python -m pytest --cov=src"
+        language: system
+        pass_filenames: false
+        types: [python]
